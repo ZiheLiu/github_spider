@@ -1,3 +1,6 @@
+from pymongo import MongoClient
+
+import constants
 import services
 
 
@@ -30,7 +33,12 @@ class Repository(object):
             max_starts_count = last_repo_info['stargazers_count']
 
 
+def write_repos2db():
+    brief_repos = list(Repository(2000).repositories())
+    conn = MongoClient(constants.DATABASE['HOST'], constants.DATABASE['PORT'])[constants.DATABASE['DATABASE']]
+    brief_repos_col = conn[constants.DB_COLLECTIONS['BRIEF_REPOS']]
+    brief_repos_col.insert(brief_repos)
+
+
 if __name__ == '__main__':
-    repos = Repository(1001)
-    for repo in repos.repositories():
-        print(repo)
+    write_repos2db()
