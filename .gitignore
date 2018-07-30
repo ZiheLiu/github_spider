@@ -3,3 +3,13 @@ venv/
 
 # pycharm
 .idea/
+
+# python
+__pycache__/
+**/__pycache__/
+
+# mac
+.DS_Store
+
+# static file
+static/

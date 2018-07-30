@@ -17,6 +17,8 @@ class Bucket(object):
         self.rate = rate
         self.queue = Queue(max_size)
 
+        self.auto_put()
+
     def auto_put(self):
         """开启一个Thread，每1/self.rate秒向桶内放一个令牌.
         :return: None.
