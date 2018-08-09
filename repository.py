@@ -40,5 +40,13 @@ def write_repos2db():
     brief_repos_col.insert(brief_repos)
 
 
+def get_brief_repos():
+    conn = MongoClient(constants.DATABASE['HOST'], constants.DATABASE['PORT'])[constants.DATABASE['DATABASE']]
+    brief_repos_col = conn[constants.DB_COLLECTIONS['BRIEF_REPOS']]
+    with brief_repos_col.find() as items:
+        brief_repos = list(items)
+    return brief_repos
+
+
 if __name__ == '__main__':
-    write_repos2db()
+    print(get_brief_repos()[: 2])

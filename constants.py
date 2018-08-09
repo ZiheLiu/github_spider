@@ -14,6 +14,7 @@ GITHUB_DOMAIN = 'https://api.github.com'
 
 # for project
 LOGGING_FILENAME = os.path.join(STATIC_DIR, 'logs')
+COMMIT_MSGS_FILENAME = os.path.join(STATIC_DIR, 'commitmsgs')
 
 # for mongodb
 DATABASE = {

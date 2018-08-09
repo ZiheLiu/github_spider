@@ -17,3 +17,11 @@ def get_repository(repo_name):
     url = '/repos/' + repo_name
     res = request.get(url)
     return res.json()
+
+
+def get_commits_by_desc(desc):
+    url = '/search/commits?q=' + desc
+    res = request.get(url, {
+        'Accept': 'application/vnd.github.cloak-preview+json'
+    })
+    return res.json()
