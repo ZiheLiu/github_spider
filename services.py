@@ -1,3 +1,6 @@
+import re
+from urllib import parse
+
 from request import request
 
 
@@ -28,5 +31,72 @@ def get_commits_by_desc(desc):
     return res.json()
 
 
+def get_commits_by_repo_name(repo_name, cur_page, get_pages_total=False):
+    """根据仓库名称，获取仓库的commit的列表（按照时间递减顺序）.
+
+    Return:
+        list of object.
+    Example:
+        [
+            {
+                'sha': 'the sha ID',
+                'commit': {
+                    'message': 'the commit message'
+                }
+            }
+        ]
+    """
+    url = '/repos/%s/commits?per_page=100&page=%d&sha=master' % (repo_name, cur_page)
+    res = request.get(url)
+
+    if not get_pages_total:
+        return res.json()
+
+    link_str = res.headers['Link']
+    last_page_link_search = re.search(', <(.*)>; rel="last"', link_str)
+    last_page_link = last_page_link_search.group(1)
+    pages_total = parse.parse_qs(parse.urlparse(last_page_link).query)['page'][0]
+
+    return res.json(), pages_total
+
+
+def get_commit_detail(repo_name, commit_sha):
+    """根据仓库名称、commit的ID，获得commit的详细信息.
+
+    Return:
+        object.
+    Example:
+        {
+            'files': [
+                'filename': 'the file name',
+                'patch': 'the file patch'
+            ]
+        }
+    """
+    url = '/repos/%s/commits/%s' % (repo_name, commit_sha)
+    res = request.get(url, {
+        'Accept': 'application/vnd.github.cloak-preview+json'
+    })
+    return res.json()
+
+
+def get_file_content(repo_name, commit_sha, filename):
+    """根据仓库名称、commit的ID、文件名称，获取文件的具体内容.
+
+    Return:
+        str. The file content string.
+    """
+    url = 'https://github.com/%s/raw/%s/%s' % (repo_name, commit_sha, filename)
+    res = request.get(url)
+    return res.text
+
+
 if __name__ == '__main__':
-    print(get_repository('ss'))
+    def main():
+        commits = get_file_content('iluwatar/java-design-patterns',
+                                   'facb9e51a6f88765682d1723a2e3601825e275f6',
+                                   'reactor/src/main/java/com/iluwatar/reactor/app/AppClient.javas')
+        print(commits)
+
+
+    main()
