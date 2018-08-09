@@ -14,6 +14,7 @@ def get_repositories(cur_page, max_starts_count=None):
 
 
 def get_repository(repo_name):
+    """根据仓库名称，获取仓库详情."""
     url = '/repos/' + repo_name
     res = request.get(url)
     return res.json()
@@ -25,3 +26,7 @@ def get_commits_by_desc(desc):
         'Accept': 'application/vnd.github.cloak-preview+json'
     })
     return res.json()
+
+
+if __name__ == '__main__':
+    print(get_repository('ss'))
