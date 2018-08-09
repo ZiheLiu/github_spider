@@ -10,6 +10,11 @@ class Repository(object):
         self.max_starts_count = max_starts_count
 
     def repositories(self):
+        """Get brief repository lazy list.
+
+        Return:
+            Iterable list of object. The object's keys include 'url' and 'repo_name'.
+        """
         max_starts_count = self.max_starts_count
         last_repo_name = None
 
@@ -41,6 +46,11 @@ def write_repos2db():
 
 
 def get_brief_repos():
+    """Get brief information of repositories.
+
+    Return:
+        list of object. The object's keys include 'url' and 'repo_name'.
+    """
     conn = MongoClient(constants.DATABASE['HOST'], constants.DATABASE['PORT'])[constants.DATABASE['DATABASE']]
     brief_repos_col = conn[constants.DB_COLLECTIONS['BRIEF_REPOS']]
     with brief_repos_col.find() as items:
