@@ -39,7 +39,7 @@ class Repository(object):
 
 
 def write_repos2db():
-    brief_repos = list(Repository(2000).repositories())
+    brief_repos = list(Repository(4000).repositories())
     conn = MongoClient(constants.DATABASE['HOST'], constants.DATABASE['PORT'])[constants.DATABASE['DATABASE']]
     brief_repos_col = conn[constants.DB_COLLECTIONS['BRIEF_REPOS']]
     brief_repos_col.insert(brief_repos)
@@ -49,7 +49,7 @@ def get_brief_repos():
     """Get brief information of repositories.
 
     Return:
-        list of object. The object's keys include 'url' and 'repo_name'.
+        list of object. The object's keys include '_id', 'url' and 'repo_name'.
     """
     conn = MongoClient(constants.DATABASE['HOST'], constants.DATABASE['PORT'])[constants.DATABASE['DATABASE']]
     brief_repos_col = conn[constants.DB_COLLECTIONS['BRIEF_REPOS']]
@@ -59,4 +59,4 @@ def get_brief_repos():
 
 
 if __name__ == '__main__':
-    print(get_brief_repos()[: 2])
+    write_repos2db()
