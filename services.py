@@ -52,10 +52,13 @@ def get_commits_by_repo_name(repo_name, cur_page, get_pages_total=False):
     if not get_pages_total:
         return res.json()
 
-    link_str = res.headers['Link']
-    last_page_link_search = re.search(', <(.*)>; rel="last"', link_str)
-    last_page_link = last_page_link_search.group(1)
-    pages_total = parse.parse_qs(parse.urlparse(last_page_link).query)['page'][0]
+    if 'Link' not in res.headers:
+        pages_total = 1
+    else:
+        link_str = res.headers['Link']
+        last_page_link_search = re.search(', <(.*)>; rel="last"', link_str)
+        last_page_link = last_page_link_search.group(1)
+        pages_total = parse.parse_qs(parse.urlparse(last_page_link).query)['page'][0]
 
     return res.json(), int(pages_total)
 
