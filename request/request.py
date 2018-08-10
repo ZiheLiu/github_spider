@@ -37,6 +37,7 @@ def get(url: str, headers=None):
 
     github_account_index = random.randint(0, 4)
     github_account = constants.GITHUB_ACCOUNTS[github_account_index]
+    LOGGER.info('username: %s' % github_account['username'])
 
     res = requests.get(url,
                        headers=headers,
