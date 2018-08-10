@@ -5,10 +5,33 @@ STATIC_DIR = os.path.join(ROOT_DIR, 'static')
 
 # for github
 BUCKET_SIZE = 5
-RATE = 4500 / 3600
+RATE = 4500 * 5 / 3600
 
 USERNAME = 'xinleima'
 PASSWORD = '_yamsm_28_'
+
+GITHUB_ACCOUNTS = [
+    {
+        'username': 'xinleima',
+        'password': '_yamsm_28_'
+    },
+    {
+        'username': 'sxw196@163.com',
+        'password': 'ddyynls1015'
+    },
+    {
+        'username': 'mgs588@163.com',
+        'password': 'ddyynls1015'
+    },
+    {
+        'username': 'wom684@163.com',
+        'password': 'ddyynls1015'
+    },
+    {
+        'username': 'rwj918@163.com',
+        'password': 'ddyynls1015'
+    }
+]
 
 GITHUB_DOMAIN = 'https://api.github.com'
 

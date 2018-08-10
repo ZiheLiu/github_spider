@@ -1,9 +1,10 @@
+import random
+
 import requests
 from simplejson import JSONDecodeError
 
 import constants
 from utils.log_utils import LOGGER
-from utils.shell_args import SHELL_ARGS
 from .bucket import Bucket
 
 _bucket = Bucket()
@@ -34,9 +35,12 @@ def get(url: str, headers=None):
     if headers:
         headers.update(must_headers)
 
+    github_account_index = random.randint(0, 4)
+    github_account = constants.GITHUB_ACCOUNTS[github_account_index]
+
     res = requests.get(url,
                        headers=headers,
-                       auth=(SHELL_ARGS.username, SHELL_ARGS.password),
+                       auth=(github_account['username'], github_account['password']),
                        stream=True)
 
     if res.status_code != 200:
