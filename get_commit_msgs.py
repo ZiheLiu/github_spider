@@ -7,6 +7,7 @@ from repository import ReadRepositoryQueue
 from request.request import ResponseStatusError
 from utils import file_utils
 from utils.log_utils import LOGGER
+from utils.shell_args import SHELL_ARGS
 
 
 class GetCommitError(Exception):
@@ -118,7 +119,7 @@ def get_commit_msgs(repository_queue: ReadRepositoryQueue):
 
 
 def main():
-    repository_queue = ReadRepositoryQueue()
+    repository_queue = ReadRepositoryQueue(SHELL_ARGS.repos_skip)
 
     threads = []
 

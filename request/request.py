@@ -3,6 +3,7 @@ from simplejson import JSONDecodeError
 
 import constants
 from utils.log_utils import LOGGER
+from utils.shell_args import SHELL_ARGS
 from .bucket import Bucket
 
 _bucket = Bucket()
@@ -35,7 +36,7 @@ def get(url: str, headers=None):
 
     res = requests.get(url,
                        headers=headers,
-                       auth=(constants.USERNAME, constants.PASSWORD),
+                       auth=(SHELL_ARGS.username, SHELL_ARGS.password),
                        stream=True)
 
     if res.status_code != 200:
