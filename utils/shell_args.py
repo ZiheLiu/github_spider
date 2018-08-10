@@ -9,7 +9,6 @@ def add_arguments(parser: argparse.ArgumentParser):
     parser.add_argument('--repos_skip', type=int, default=0)
 
 
-
 parser = argparse.ArgumentParser()
 add_arguments(parser)
 SHELL_ARGS = parser.parse_args()
