@@ -5,7 +5,7 @@ STATIC_DIR = os.path.join(ROOT_DIR, 'static')
 
 # for github
 BUCKET_SIZE = 5
-RATE = 5000 / 3600
+RATE = 4500 / 3600
 
 USERNAME = 'xinleima'
 PASSWORD = '_yamsm_28_'
@@ -26,3 +26,17 @@ DATABASE = {
 DB_COLLECTIONS = {
     'BRIEF_REPOS': 'brief_repos'
 }
+
+REPO_STATUS = {
+    'NO_DEAL': 0,
+    'SUCCESS': 1,
+    'ERROR': 2
+}
+
+# for data
+COMMIT_PAGES_LIMIT = 10
+COMMIT_FILES_LIMIT = 10
+
+COMMIT_DATA_DIR = os.path.join(STATIC_DIR, 'commits')
+
+THREAD_TOTAL = 5

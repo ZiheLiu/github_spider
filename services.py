@@ -57,7 +57,7 @@ def get_commits_by_repo_name(repo_name, cur_page, get_pages_total=False):
     last_page_link = last_page_link_search.group(1)
     pages_total = parse.parse_qs(parse.urlparse(last_page_link).query)['page'][0]
 
-    return res.json(), pages_total
+    return res.json(), int(pages_total)
 
 
 def get_commit_detail(repo_name, commit_sha):
@@ -95,7 +95,7 @@ if __name__ == '__main__':
     def main():
         commits = get_file_content('iluwatar/java-design-patterns',
                                    'facb9e51a6f88765682d1723a2e3601825e275f6',
-                                   'reactor/src/main/java/com/iluwatar/reactor/app/AppClient.javas')
+                                   'reactor/src/main/java/com/iluwatar/reactor/app/AppClient.java')
         print(commits)
 
 
