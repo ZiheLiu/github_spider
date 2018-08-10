@@ -44,6 +44,8 @@ def _get_commits(repo_name):
 def get_commit_msgs(repository_queue: ReadRepositoryQueue):
     repo = repository_queue.get()
     while repo:
+        if 'status' in repo and repo['status'] != constants.REPO_STATUS['NO_DEAL']:
+            continue
         repo_name = repo['repo_name']
         try:
             commits = _get_commits(repo_name)
