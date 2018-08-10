@@ -1,4 +1,5 @@
 import random
+import threading
 
 import requests
 from simplejson import JSONDecodeError
@@ -7,7 +8,8 @@ import constants
 from utils.log_utils import LOGGER
 from .bucket import Bucket
 
-_bucket = Bucket()
+
+# _bucket = Bucket()
 
 
 class ResponseStatusError(Exception):
@@ -21,30 +23,45 @@ def _get_err_msg(res):
         return res.text
 
 
-def get(url: str, headers=None):
-    _bucket.get()
+class Request(object):
+    def __init__(self):
+        self._bucket = Bucket()
+        self._accounts_index = 0
+        self._lock = threading.RLock()
 
-    if not url.startswith('http'):
-        url = constants.GITHUB_DOMAIN + url
+    def _get_account(self):
+        self._lock.acquire()
+        github_account = constants.GITHUB_ACCOUNTS[self._accounts_index]
+        LOGGER.info('username: %s' % github_account['username'])
+        self._accounts_index = (self._accounts_index + 1) % len(constants.GITHUB_ACCOUNTS)
+        self._lock.release()
+        return github_account
 
-    LOGGER.info('get [%s]' % url)
+    def get(self, url: str, headers=None):
+        self._bucket.get()
 
-    must_headers = {
-        'User-Agent': 'User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
-    }
-    if headers:
-        headers.update(must_headers)
+        if not url.startswith('http'):
+            url = constants.GITHUB_DOMAIN + url
 
-    github_account_index = random.randint(0, 4)
-    github_account = constants.GITHUB_ACCOUNTS[github_account_index]
-    LOGGER.info('username: %s' % github_account['username'])
+        LOGGER.info('get [%s]' % url)
 
-    res = requests.get(url,
-                       headers=headers,
-                       auth=(github_account['username'], github_account['password']),
-                       stream=True)
+        must_headers = {
+            'User-Agent': 'User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
+        }
+        if headers:
+            headers.update(must_headers)
 
-    if res.status_code != 200:
-        raise ResponseStatusError(_get_err_msg(res))
+        github_account = self._get_account()
 
-    return res
+        res = requests.get(url,
+                           headers=headers,
+                           auth=(github_account['username'], github_account['password']),
+                           stream=True)
+
+        if res.status_code != 200:
+            raise ResponseStatusError(_get_err_msg(res))
+
+        return res
+
+
+REQUEST = Request()

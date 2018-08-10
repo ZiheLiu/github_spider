@@ -1,7 +1,7 @@
 import re
 from urllib import parse
 
-from request import request
+from request.request import REQUEST
 
 
 def get_repositories(cur_page, max_starts_count=None):
@@ -12,20 +12,20 @@ def get_repositories(cur_page, max_starts_count=None):
         url_starts_part = ''
 
     url = '/search/repositories?q=language:java%s&page=%d&per_page=100' % (url_starts_part, cur_page)
-    res = request.get(url)
+    res = REQUEST.get(url)
     return res.json()['items']
 
 
 def get_repository(repo_name):
     """根据仓库名称，获取仓库详情."""
     url = '/repos/' + repo_name
-    res = request.get(url)
+    res = REQUEST.get(url)
     return res.json()
 
 
 def get_commits_by_desc(desc):
     url = '/search/commits?q=' + desc
-    res = request.get(url, {
+    res = REQUEST.get(url, {
         'Accept': 'application/vnd.github.cloak-preview+json'
     })
     return res.json()
@@ -47,7 +47,7 @@ def get_commits_by_repo_name(repo_name, cur_page, get_pages_total=False):
         ]
     """
     url = '/repos/%s/commits?per_page=100&page=%d&sha=master' % (repo_name, cur_page)
-    res = request.get(url)
+    res = REQUEST.get(url)
 
     if not get_pages_total:
         return res.json()
@@ -77,7 +77,7 @@ def get_commit_detail(repo_name, commit_sha):
         }
     """
     url = '/repos/%s/commits/%s' % (repo_name, commit_sha)
-    res = request.get(url, {
+    res = REQUEST.get(url, {
         'Accept': 'application/vnd.github.cloak-preview+json'
     })
     return res.json()
@@ -90,7 +90,7 @@ def get_file_content(repo_name, commit_sha, filename):
         str. The file content string.
     """
     url = 'https://github.com/%s/raw/%s/%s' % (repo_name, commit_sha, filename)
-    res = request.get(url)
+    res = REQUEST.get(url)
     return res.text
 
 
