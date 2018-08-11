@@ -46,6 +46,7 @@ def get_commit_msgs(repository_queue: ReadRepositoryQueue):
     while repo:
         if 'status' in repo and repo['status'] != constants.REPO_STATUS['NO_DEAL']:
             LOGGER.info('The repo has dealed! Repo name: %s' % repo['repo_name'])
+            repo = repository_queue.get()
             continue
         repo_name = repo['repo_name']
         try:
