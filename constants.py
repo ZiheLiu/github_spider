@@ -8,44 +8,12 @@ STATIC_DIR = os.path.join(ROOT_DIR, 'static')
 # for github
 GITHUB_ACCOUNTS = [
     {
-        'username': 'nvk076@163.com',
+        'username': '272910663@qq.com',
         'password': 'ddyynls1015'
     },
     {
-        'username': 'nwx261@163.com',
-        'password': 'ddyynls1015'
-    },
-    {
-        'username': 'kha165@163.com',
-        'password': 'ddyynls1015'
-    },
-    {
-        'username': 'pzi957@163.com',
-        'password': 'ddyynls1015'
-    },
-    {
-        'username': 'llk874@163.com',
-        'password': 'ddyynls1015'
-    },
-    {
-        'username': 'yfx936@163.com',
-        'password': 'ddyynls1015'
-    },
-    {
-        'username': 'mbw416@163.com',
-        'password': 'ddyynls1015'
-    },
-    {
-        'username': 'zop489@163.com',
-        'password': 'ddyynls1015'
-    },
-    {
-        'username': 'hla851@163.com',
-        'password': 'ddyynls1015'
-    },
-    {
-        'username': 'vbc647@163.com',
-        'password': 'ddyynls1015'
+        'username': '1376260753@qq.com',
+        'password': '_yamsm_28_'
     }
 ]
 
