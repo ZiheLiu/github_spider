@@ -37,7 +37,7 @@ class Request(object):
         self._lock.release()
         return github_account
 
-    def get(self, url: str, headers=None):
+    def get(self, url: str, headers=None, retry_times=0):
         self._bucket.get()
 
         if not url.startswith('http'):
@@ -60,6 +60,8 @@ class Request(object):
 
         if res.status_code != 200:
             LOGGER.error('get [%s] error: [%s]' % (url, res.text))
+            if res.status_code >= 500 and retry_times < 5:
+                return REQUEST.get(url, headers, retry_times + 1)
             raise ResponseStatusError(_get_err_msg(res))
 
         return res
