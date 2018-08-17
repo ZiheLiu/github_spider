@@ -59,6 +59,7 @@ class Request(object):
                            stream=True)
 
         if res.status_code != 200:
+            LOGGER.error('get [%s] error: [%s]' % (url, res.text))
             raise ResponseStatusError(_get_err_msg(res))
 
         return res
