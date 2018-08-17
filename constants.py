@@ -1,5 +1,7 @@
 import os
 
+from utils.shell_args import SHELL_ARGS
+
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_DIR = os.path.join(ROOT_DIR, 'static')
 
@@ -78,7 +80,7 @@ REPO_STATUS = {
 }
 
 # for data
-COMMIT_PAGES_LIMIT = 10
+COMMIT_PAGES_LIMIT = SHELL_ARGS.commits_limit
 COMMIT_FILES_LIMIT = 10
 
 COMMIT_DATA_DIR = os.path.join(STATIC_DIR, 'commits')
