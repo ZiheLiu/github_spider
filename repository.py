@@ -97,4 +97,4 @@ def get_brief_repos():
 
 
 if __name__ == '__main__':
-    print(get_brief_repos()[: 10])
+    write_repos2db()
