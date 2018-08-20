@@ -18,7 +18,7 @@ GITHUB_ACCOUNTS = [
 ]
 
 BUCKET_SIZE = 5
-RATE = 4000 * len(GITHUB_ACCOUNTS) / 3600
+RATE = 4900 * len(GITHUB_ACCOUNTS) / 3600
 
 USERNAME = 'xinleima'
 PASSWORD = '_yamsm_28_'
@@ -34,7 +34,7 @@ COMMIT_MSGS_FILENAME = os.path.join(STATIC_DIR, 'commitmsgs')
 DATABASE = {
     'HOST': 'localhost',
     'PORT': 27017,
-    'DATABASE': 'github'
+    'DATABASE': 'github2'
 }
 
 DB_COLLECTIONS = {
@@ -51,6 +51,6 @@ REPO_STATUS = {
 COMMIT_PAGES_LIMIT = SHELL_ARGS.commits_limit
 COMMIT_FILES_LIMIT = 10
 
-COMMIT_DATA_DIR = os.path.join(STATIC_DIR, 'commits')
+COMMIT_DATA_DIR = os.path.join(STATIC_DIR, 'commits2')
 
 THREAD_TOTAL = 5
