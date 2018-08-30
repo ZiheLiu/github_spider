@@ -44,7 +44,7 @@ def _get_commits(repo_name):
 def get_commit_msgs(repository_queue: ReadRepositoryQueue):
     repo = repository_queue.get()
     while repo:
-        if 'status' in repo and repo['status'] != constants.REPO_STATUS['SUCCESS']:
+        if 'status' in repo and repo['status'] == constants.REPO_STATUS['SUCCESS']:
             LOGGER.info('The repo has dealed! Repo name: %s' % repo['repo_name'])
             repo = repository_queue.get()
             continue
@@ -117,6 +117,7 @@ def get_commit_msgs(repository_queue: ReadRepositoryQueue):
             LOGGER.error(
                 'This repo has error, repo_pos: %d, repo_name: %s, error: %s' % (repo_pos, repo_name, str(error)))
         except Exception as error:
+            repository_queue.update_repo_status(repo['_id'], constants.REPO_STATUS['ERROR'], str(error))
             LOGGER.error('The unknown exception: %s' % str(error))
 
         repo = repository_queue.get()
