@@ -51,13 +51,10 @@ def get_commit_msgs(repository_queue: ReadRepositoryQueue):
         repo_name = repo['repo_name']
         try:
             commits = _get_commits(repo_name)
-            last_commit_filenames = list()
-            last_commit_path = ''
 
             repo_pos = repository_queue.pos()
 
             repo_path = os.path.join(constants.COMMIT_DATA_DIR, '%d.%s' % (repo_pos, repo_name.replace('/', '.')))
-            # file_utils.safe_makedirs(repo_path)
 
             for commit_pos, commit in enumerate(commits):
                 commit_sha = commit['sha']
@@ -68,20 +65,6 @@ def get_commit_msgs(repository_queue: ReadRepositoryQueue):
                 file_utils.write_string_to_file(os.path.join(commit_path, 'commit_msg'), commit_msg)
 
                 try:
-                    for last_commit_file_name in last_commit_filenames:
-                        try:
-                            last_commit_old_file_content = services.get_file_content(
-                                repo_name, commit_sha, last_commit_file_name)
-                        except ResponseStatusError:
-                            last_commit_old_file_content = ''
-
-                        file_utils.write_string_to_file(
-                            os.path.join(last_commit_path, last_commit_file_name.replace('/', '.'), 'old_content'),
-                            last_commit_old_file_content)
-
-                    last_commit_filenames = list()
-                    last_commit_path = commit_path
-
                     commit_detail = services.get_commit_detail(repo_name, commit_sha)
                     if commit_msg.startswith('Merge') or commit_msg.startswith('merge'):
                         file_utils.write_string_to_file(
@@ -101,11 +84,6 @@ def get_commit_msgs(repository_queue: ReadRepositoryQueue):
 
                         file_patch = file['patch'] if 'patch' in file else ''
                         file_utils.write_string_to_file(os.path.join(commit_file_path, 'patch'), file_patch)
-
-                        new_file_content = services.get_file_content(repo_name, commit_sha, filename)
-                        file_utils.write_string_to_file(os.path.join(commit_file_path, 'new_content'), new_file_content)
-
-                        last_commit_filenames.append(filename)
                 except Exception as error:
                     LOGGER.error('The unknown exception: %s' % str(error))
                     # shutil.rmtree(commit_path, ignore_errors=True)
