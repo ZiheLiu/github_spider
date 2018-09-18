@@ -51,6 +51,6 @@ REPO_STATUS = {
 COMMIT_PAGES_LIMIT = SHELL_ARGS.commits_limit
 COMMIT_FILES_LIMIT = 10
 
-COMMIT_DATA_DIR = os.path.join(STATIC_DIR, 'commits2')
+COMMIT_DATA_DIR = os.path.join(STATIC_DIR, SHELL_ARGS.output_dir)
 
 THREAD_TOTAL = 5
